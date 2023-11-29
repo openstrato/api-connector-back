@@ -5,15 +5,31 @@ const AttributeService_1 = require("./Attribute/AttributeService");
 const CartService_1 = require("./Cart/CartService");
 const HttpClient_1 = require("./Common/HttpClient");
 const OrderService_1 = require("./Order/OrderService");
+const OrganizationService_1 = require("./Organization/OrganizationService");
 const ProductService_1 = require("./Product/ProductService");
+const ShopService_1 = require("./Shop/ShopService");
 const TaxService_1 = require("./Tax/TaxService");
+const defaultParams = {
+    accessToken: undefined,
+    lang: 'en',
+    currency: 'EUR',
+    productApiUrl: 'http://products.shop.localhost',
+    orderApiUrl: 'http://shop_api:3004',
+    cartApiUrl: 'http://carts.shop.localhost',
+    extensionApiUrl: 'http://extension.shop.localhost',
+    shopApiUrl: 'http://shops.shop.localhost',
+};
 function apiConnector(params) {
-    const httpClient = new HttpClient_1.default();
+    params = Object.assign(Object.assign({}, defaultParams), params);
+    const httpClient = new HttpClient_1.default(params.accessToken);
     const productService = new ProductService_1.ProductService(params, httpClient);
     const attributeService = new AttributeService_1.AttributeService(params, httpClient);
+    const taxService = new TaxService_1.default(params, httpClient);
     const cartService = new CartService_1.CartService(params, httpClient);
     const orderService = new OrderService_1.OrderService(params, httpClient);
-    const taxServce = new TaxService_1.default(params, httpClient);
+    const shopService = new ShopService_1.ShopService(params, httpClient);
+    const organizationService = new OrganizationService_1.OrganizationService(params, httpClient);
+    // const organizationService = 
     // - handle payment methods
     // - ability to add a payment (other than stripe)
     const connector = {
@@ -21,7 +37,9 @@ function apiConnector(params) {
         attributes: attributeService,
         carts: cartService,
         orders: orderService,
-        taxes: taxServce,
+        taxes: taxService,
+        shops: shopService,
+        organizations: organizationService,
     };
     return connector;
 }

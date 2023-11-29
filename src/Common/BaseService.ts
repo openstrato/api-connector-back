@@ -6,7 +6,7 @@ export class BaseService<T, createT = null, updateT = null>
     protected baseUrl = '';
 
     protected requestParams: any = {
-        lang: this.params.lang
+        lang: this.params.lang,
     }
 
     protected requestHeaders: any = {}
@@ -16,10 +16,13 @@ export class BaseService<T, createT = null, updateT = null>
         protected httpClient: HttpClient
     ) {}
 
-    find = async(): Promise<T[]> => {
+    find = async(params = {}): Promise<T[]> => {
         const entities = this.httpClient.get(
             this.baseUrl,
-            this.requestParams,
+            {
+                ...this.requestParams,
+                ...params
+            },
             {}
         )
 

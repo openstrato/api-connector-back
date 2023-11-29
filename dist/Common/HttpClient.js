@@ -12,11 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const url_1 = require("url");
 class HttpClient {
+    constructor(accessToken) {
+        this.defaultHeaders = {};
+        this.withCredentials = true;
+        if (accessToken && accessToken.length > 0) {
+            this.defaultHeaders['Authorization'] = `Bearer ${accessToken}`; // only set if not `withCredentials=true`
+            this.withCredentials = false;
+        }
+    }
     get(url, params, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield axios_1.default.get(url, {
+                withCredentials: this.withCredentials,
                 params: params,
-                headers: headers,
+                headers: Object.assign(Object.assign({}, headers), this.defaultHeaders),
             });
             return response.data;
         });
@@ -26,7 +35,8 @@ class HttpClient {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield axios_1.default.post(url, data, {
-                    headers: headers,
+                    withCredentials: this.withCredentials,
+                    headers: Object.assign(Object.assign({}, headers), this.defaultHeaders),
                     params: params,
                 });
                 return response.data;
@@ -39,8 +49,9 @@ class HttpClient {
     delete(url, params, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield axios_1.default.get(url, {
+                withCredentials: this.withCredentials,
                 params: params,
-                headers: headers,
+                headers: Object.assign(Object.assign({}, headers), this.defaultHeaders),
             });
             return response.data;
         });

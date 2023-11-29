@@ -3,14 +3,30 @@ import { URL, URLSearchParams } from 'url';
 
 export default class HttpClient
 {
+    private defaultHeaders: any = {};
+    private withCredentials: boolean = true;
+
+    constructor(
+        accessToken?: string
+    ) {
+        if (accessToken && accessToken.length > 0) {
+            this.defaultHeaders['Authorization'] = `Bearer ${accessToken}` // only set if not `withCredentials=true`
+            this.withCredentials = false
+        }
+    }
+
     async get(url: string, params, headers = {})
     {
         const response: AxiosResponse = await axios.get(url, {
+            withCredentials: this.withCredentials,
             params: params,
-            headers: headers,
+            headers: {
+                ...headers,
+                ...this.defaultHeaders,
+            },
         })
 
-        return response.data;
+        return response.data
     }
 
     async post(url: string, data, params, headers = {})
@@ -20,7 +36,11 @@ export default class HttpClient
                 url,
                 data,
                 {
-                    headers: headers,
+                    withCredentials: this.withCredentials,
+                    headers: {
+                        ...headers,
+                        ...this.defaultHeaders,
+                    },
                     params: params,
                 }
             )
@@ -34,8 +54,12 @@ export default class HttpClient
     async delete(url: string, params, headers = {})
     {
         const response: AxiosResponse = await axios.get(url, {
+            withCredentials: this.withCredentials,
             params: params,
-            headers: headers,
+            headers: {
+                ...headers,
+                ...this.defaultHeaders,
+            },
         })
 
         return response.data;

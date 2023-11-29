@@ -16,11 +16,11 @@ class BaseService {
         this.httpClient = httpClient;
         this.baseUrl = '';
         this.requestParams = {
-            lang: this.params.lang
+            lang: this.params.lang,
         };
         this.requestHeaders = {};
-        this.find = () => __awaiter(this, void 0, void 0, function* () {
-            const entities = this.httpClient.get(this.baseUrl, this.requestParams, {});
+        this.find = (params = {}) => __awaiter(this, void 0, void 0, function* () {
+            const entities = this.httpClient.get(this.baseUrl, Object.assign(Object.assign({}, this.requestParams), params), {});
             return entities;
         });
         this.findById = (entityId) => __awaiter(this, void 0, void 0, function* () {
