@@ -2,9 +2,9 @@ import { BaseService } from "../Common/BaseService";
 export interface OrganizationInterface {
     id: string;
     name: string;
-    users: OrganizationUserInterface[];
+    users: OrganizationUser[];
 }
-export interface OrganizationUserInterface {
+export interface OrganizationUser {
     userId: string;
     scopes: string[];
 }
