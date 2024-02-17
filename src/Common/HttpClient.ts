@@ -53,7 +53,7 @@ export default class HttpClient
 
     async delete(url: string, params, headers = {})
     {
-        const response: AxiosResponse = await axios.get(url, {
+        const response: AxiosResponse = await axios.delete(url, {
             withCredentials: this.withCredentials,
             params: params,
             headers: {

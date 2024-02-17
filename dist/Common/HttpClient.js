@@ -48,7 +48,7 @@ class HttpClient {
     }
     delete(url, params, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield axios_1.default.get(url, {
+            const response = yield axios_1.default.delete(url, {
                 withCredentials: this.withCredentials,
                 params: params,
                 headers: Object.assign(Object.assign({}, headers), this.defaultHeaders),
