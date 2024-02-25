@@ -9,6 +9,7 @@ const OrganizationService_1 = require("./Organization/OrganizationService");
 const ProductService_1 = require("./Product/ProductService");
 const ShopService_1 = require("./Shop/ShopService");
 const TaxService_1 = require("./Tax/TaxService");
+const UserService_1 = require("./User/UserService");
 const defaultParams = {
     accessToken: undefined,
     lang: 'en',
@@ -18,6 +19,7 @@ const defaultParams = {
     cartApiUrl: 'http://carts.shop.localhost',
     extensionApiUrl: 'http://extension.shop.localhost',
     shopApiUrl: 'http://shops.shop.localhost',
+    authApiUrl: 'http://auth.shop.localhost',
 };
 function apiConnector(params) {
     params = Object.assign(Object.assign({}, defaultParams), params);
@@ -29,7 +31,7 @@ function apiConnector(params) {
     const orderService = new OrderService_1.OrderService(params, httpClient);
     const shopService = new ShopService_1.ShopService(params, httpClient);
     const organizationService = new OrganizationService_1.OrganizationService(params, httpClient);
-    // const organizationService = 
+    const userService = new UserService_1.default(params, httpClient);
     // - handle payment methods
     // - ability to add a payment (other than stripe)
     const connector = {
@@ -40,6 +42,7 @@ function apiConnector(params) {
         taxes: taxService,
         shops: shopService,
         organizations: organizationService,
+        users: userService,
     };
     return connector;
 }

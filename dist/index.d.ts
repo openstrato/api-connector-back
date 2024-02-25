@@ -5,6 +5,7 @@ import { OrganizationService } from "./Organization/OrganizationService";
 import { ProductService } from "./Product/ProductService";
 import { ShopService } from "./Shop/ShopService";
 import TaxService from "./Tax/TaxService";
+import UserService from "./User/UserService";
 export interface ApiParamsInterface {
     accessToken?: string;
     lang?: string;
@@ -14,6 +15,7 @@ export interface ApiParamsInterface {
     orderApiUrl?: string;
     extensionApiUrl?: string;
     shopApiUrl?: string;
+    authApiUrl?: string;
 }
 export declare function apiConnector(params: ApiParamsInterface): {
     products: ProductService;
@@ -23,4 +25,5 @@ export declare function apiConnector(params: ApiParamsInterface): {
     taxes: TaxService;
     shops: ShopService;
     organizations: OrganizationService;
+    users: UserService;
 };

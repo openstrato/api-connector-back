@@ -6,6 +6,7 @@ import { OrganizationService } from "./Organization/OrganizationService";
 import {ProductService} from "./Product/ProductService";
 import { ShopService } from "./Shop/ShopService";
 import TaxService from "./Tax/TaxService";
+import UserService from "./User/UserService";
 
 export interface ApiParamsInterface
 {
@@ -17,6 +18,7 @@ export interface ApiParamsInterface
     orderApiUrl?: string,
     extensionApiUrl?: string,
     shopApiUrl?: string,
+    authApiUrl?: string,
 }
 
 const defaultParams: ApiParamsInterface = {
@@ -28,6 +30,7 @@ const defaultParams: ApiParamsInterface = {
     cartApiUrl: 'http://carts.shop.localhost',
     extensionApiUrl: 'http://extension.shop.localhost',
     shopApiUrl: 'http://shops.shop.localhost',
+    authApiUrl: 'http://auth.shop.localhost',
 }
 
 export function apiConnector(params: ApiParamsInterface)
@@ -50,7 +53,7 @@ export function apiConnector(params: ApiParamsInterface)
     const shopService = new ShopService(params, httpClient);
     const organizationService = new OrganizationService(params, httpClient);
 
-    // const organizationService = 
+    const userService = new UserService(params, httpClient);
 
     // - handle payment methods
     // - ability to add a payment (other than stripe)
@@ -63,6 +66,7 @@ export function apiConnector(params: ApiParamsInterface)
         taxes: taxService,
         shops: shopService,
         organizations: organizationService,
+        users: userService,
     }
 
     return connector;
