@@ -12,11 +12,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = require("axios");
 const url_1 = require("url");
 class HttpClient {
-    constructor(accessToken) {
+    constructor(accessToken, channelToken) {
         this.defaultHeaders = {};
         this.withCredentials = true;
         if (accessToken && accessToken.length > 0) {
             this.defaultHeaders['Authorization'] = `Bearer ${accessToken}`; // only set if not `withCredentials=true`
+            this.withCredentials = false;
+        }
+        if (channelToken && channelToken.length > 0) {
+            this.defaultHeaders['channel-token'] = channelToken;
             this.withCredentials = false;
         }
     }

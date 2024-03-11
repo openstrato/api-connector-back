@@ -12,6 +12,7 @@ const TaxService_1 = require("./Tax/TaxService");
 const UserService_1 = require("./User/UserService");
 const defaultParams = {
     accessToken: undefined,
+    channelToken: undefined,
     lang: 'en',
     currency: 'EUR',
     productApiUrl: 'http://products.shop.localhost',
@@ -23,7 +24,7 @@ const defaultParams = {
 };
 function apiConnector(params) {
     params = Object.assign(Object.assign({}, defaultParams), params);
-    const httpClient = new HttpClient_1.default(params.accessToken);
+    const httpClient = new HttpClient_1.default(params.accessToken, params.channelToken);
     const productService = new ProductService_1.ProductService(params, httpClient);
     const attributeService = new AttributeService_1.AttributeService(params, httpClient);
     const taxService = new TaxService_1.default(params, httpClient);

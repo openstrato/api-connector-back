@@ -8,6 +8,7 @@ import TaxService from "./Tax/TaxService";
 import UserService from "./User/UserService";
 export interface ApiParamsInterface {
     accessToken?: string;
+    channelToken?: string;
     lang?: string;
     currency?: string;
     productApiUrl?: string;

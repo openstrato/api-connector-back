@@ -7,10 +7,16 @@ export default class HttpClient
     private withCredentials: boolean = true;
 
     constructor(
-        accessToken?: string
+        accessToken?: string,
+        channelToken?: string,
     ) {
         if (accessToken && accessToken.length > 0) {
             this.defaultHeaders['Authorization'] = `Bearer ${accessToken}` // only set if not `withCredentials=true`
+            this.withCredentials = false
+        }
+
+        if (channelToken && channelToken.length > 0) {
+            this.defaultHeaders['channel-token'] = channelToken
             this.withCredentials = false
         }
     }

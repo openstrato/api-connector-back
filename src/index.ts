@@ -11,6 +11,7 @@ import UserService from "./User/UserService";
 export interface ApiParamsInterface
 {
     accessToken?: string,
+    channelToken?: string,
     lang?: string,
     currency?: string,
     productApiUrl?: string,
@@ -23,6 +24,7 @@ export interface ApiParamsInterface
 
 const defaultParams: ApiParamsInterface = {
     accessToken: undefined,
+    channelToken: undefined,
     lang: 'en',
     currency: 'EUR',
     productApiUrl: 'http://products.shop.localhost',
@@ -40,7 +42,7 @@ export function apiConnector(params: ApiParamsInterface)
         ...params,
     }
 
-    const httpClient = new HttpClient(params.accessToken);
+    const httpClient = new HttpClient(params.accessToken, params.channelToken);
 
     const productService = new ProductService(params, httpClient);
     const attributeService = new AttributeService(params, httpClient);
