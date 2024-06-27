@@ -21,11 +21,12 @@ class HttpClient {
         }
         if (channelToken && channelToken.length > 0) {
             this.defaultHeaders['channel-token'] = channelToken;
-            this.withCredentials = false;
+            // this.withCredentials = false
         }
     }
     get(url, params, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('get YYY');
             const response = yield axios_1.default.get(url, {
                 withCredentials: this.withCredentials,
                 params: params,
@@ -37,6 +38,7 @@ class HttpClient {
     post(url, data, params, headers = {}) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('post XXX');
             try {
                 const response = yield axios_1.default.post(url, data, {
                     withCredentials: this.withCredentials,

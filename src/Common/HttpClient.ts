@@ -17,12 +17,14 @@ export default class HttpClient
 
         if (channelToken && channelToken.length > 0) {
             this.defaultHeaders['channel-token'] = channelToken
-            this.withCredentials = false
+            // this.withCredentials = false
         }
     }
 
     async get(url: string, params, headers = {})
-    {
+    {        
+        console.log('get YYY');
+        
         const response: AxiosResponse = await axios.get(url, {
             withCredentials: this.withCredentials,
             params: params,
@@ -31,12 +33,14 @@ export default class HttpClient
                 ...this.defaultHeaders,
             },
         })
-
+        
         return response.data
     }
 
     async post(url: string, data, params, headers = {})
     {
+        console.log('post XXX');
+        
         try {
             const response: AxiosResponse = await axios.post(
                 url,

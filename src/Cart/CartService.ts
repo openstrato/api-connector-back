@@ -1,5 +1,5 @@
 import { BaseService } from "../Common/BaseService";
-import { VariantInterface } from "../Product/ProductService";
+import { PriceInterface, PriceMapInterface, VariantInterface } from "../Product/ProductService";
 
 export interface CartInterface
 {
@@ -9,13 +9,21 @@ export interface CartInterface
 
 export interface CartItemInterface
 {
-    variant: CartItemVariant;
+    id: string;
+    variant: CartItemVariantInterface;
     quantity: number;
 }
 
-export interface CartItemVariant
+export interface CartItemVariantInterface
 {
     variantId: string;
+    prices: PriceInterface[];
+    priceMap: PriceMapInterface;
+}
+
+export interface CartSyncOptions
+{
+    shouldSync: boolean,
 }
 
 export class CartService extends BaseService<CartInterface>
@@ -43,8 +51,13 @@ export class CartService extends BaseService<CartInterface>
         return syncedCart;
     }
 
-    addVariant = async(variant: VariantInterface, cart: CartInterface, quantity: number = 1) => {
-        const syncCart = {...cart, items: [...cart.items]};
+    addVariant = (
+        variant: VariantInterface,
+        cart: CartInterface,
+        quantity: number = 1,
+        options: CartSyncOptions
+    ) => {
+        let syncCart = {...cart, items: [...cart.items]};
 
         const found: boolean = syncCart.items.some((item, index) => {
             if (item.variant.variantId === variant.id) {
@@ -61,20 +74,29 @@ export class CartService extends BaseService<CartInterface>
         if (!found) {
             const newItem = {
                 variant: {
-                    variantId: variant.id
+                    variantId: variant.id,
+                    prices: variant.prices,
+                    priceMap: variant.priceMap,
                 },
                 quantity: quantity,
             }
             syncCart.items.push(newItem)
         }
 
-        const syncedCart = await this.sync(syncCart);
+        // if (options.shouldSync) {
+        //     syncCart = this.sync(syncCart);
+        // }
         
-        return syncedCart;
+        return syncCart;
     }
 
-    removeVariant = async(variant: CartItemVariant, cart: CartInterface, quantity: number = 1) => {
-        const syncCart = {...cart, items: [...cart.items]};
+    removeVariant = (
+        variant: CartItemVariantInterface,
+        cart: CartInterface,
+        quantity: number = 1,
+        options: CartSyncOptions
+    ) => {
+        let syncCart = {...cart, items: [...cart.items]};
 
         const found: boolean = syncCart.items.some((item: CartItemInterface, index: number) => {
             if (item.variant.variantId === variant.variantId) {                
@@ -97,8 +119,10 @@ export class CartService extends BaseService<CartInterface>
             throw new Error(`Variant ${variant.variantId} not found in Cart ${cart.id}`)
         }
 
-        const syncedCart = await this.sync(syncCart);
+        // if (options.shouldSync) {
+        //     syncCart = await this.sync(syncCart);
+        // }
 
-        return syncedCart;
+        return syncCart;
     }
 }

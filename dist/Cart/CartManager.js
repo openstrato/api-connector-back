@@ -9,26 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CartService = void 0;
-const BaseService_1 = require("../Common/BaseService");
-class CartService extends BaseService_1.BaseService {
+exports.CartManager = void 0;
+class CartManager {
     constructor() {
-        super(...arguments);
-        this.baseUrl = `${this.params.cartApiUrl}/carts`;
-        this.sync = (cart) => __awaiter(this, void 0, void 0, function* () {
-            const syncItems = cart.items.map(cartItem => {
-                return {
-                    variantId: cartItem.variant.variantId,
-                    quantity: cartItem.quantity
-                };
-            });
-            const syncedCart = yield this.httpClient.post(`${this.baseUrl}/${cart.id}`, {
-                items: syncItems
-            }, Object.assign({}, this.requestParams));
-            return syncedCart;
-        });
-        this.addVariant = (variant, cart, quantity = 1, options) => {
-            let syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
+        this.addVariant = (variant, cart, quantity = 1) => __awaiter(this, void 0, void 0, function* () {
+            const syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
             const found = syncCart.items.some((item, index) => {
                 if (item.variant.variantId === variant.id) {
                     const updatedItem = Object.assign(Object.assign({}, item), { quantity: item.quantity + quantity });
@@ -39,21 +24,16 @@ class CartService extends BaseService_1.BaseService {
             if (!found) {
                 const newItem = {
                     variant: {
-                        variantId: variant.id,
-                        prices: variant.prices,
-                        priceMap: variant.priceMap,
+                        variantId: variant.id
                     },
                     quantity: quantity,
                 };
                 syncCart.items.push(newItem);
             }
-            // if (options.shouldSync) {
-            //     syncCart = this.sync(syncCart);
-            // }
             return syncCart;
-        };
-        this.removeVariant = (variant, cart, quantity = 1, options) => {
-            let syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
+        });
+        this.removeVariant = (variant, cart, quantity = 1) => __awaiter(this, void 0, void 0, function* () {
+            const syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
             const found = syncCart.items.some((item, index) => {
                 if (item.variant.variantId === variant.variantId) {
                     if (item.quantity > quantity) {
@@ -69,11 +49,8 @@ class CartService extends BaseService_1.BaseService {
             if (!found) {
                 throw new Error(`Variant ${variant.variantId} not found in Cart ${cart.id}`);
             }
-            // if (options.shouldSync) {
-            //     syncCart = await this.sync(syncCart);
-            // }
             return syncCart;
-        };
+        });
     }
 }
-exports.CartService = CartService;
+exports.CartManager = CartManager;

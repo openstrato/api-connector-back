@@ -73,5 +73,3 @@ export function apiConnector(params: ApiParamsInterface)
 
     return connector;
 }
-
-
