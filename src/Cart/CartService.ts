@@ -1,5 +1,5 @@
 import { BaseService } from "../Common/BaseService";
-import { PriceInterface, PriceMapInterface, VariantInterface } from "../Product/ProductService";
+import { PriceInterface, PriceMapInterface, ProductInterface, VariantInterface } from "../Product/ProductService";
 
 export interface CartInterface
 {
@@ -9,9 +9,11 @@ export interface CartInterface
 
 export interface CartItemInterface
 {
-    id: string;
+    id?: string;
+    name: string;
     variant: CartItemVariantInterface;
     quantity: number;
+    images: CartItemImageInterface[];
 }
 
 export interface CartItemVariantInterface
@@ -19,6 +21,23 @@ export interface CartItemVariantInterface
     variantId: string;
     prices: PriceInterface[];
     priceMap: PriceMapInterface;
+    attributes: CartItemVariantAttributeInterface[];
+}
+
+export interface CartItemVariantAttributeInterface
+{
+    label: string;
+    values: CartItemVariantAttributeValueInterface[];
+}
+
+export interface CartItemVariantAttributeValueInterface
+{
+    label: string;
+}
+
+export interface CartItemImageInterface
+{
+    assetUrl: string;
 }
 
 export interface CartSyncOptions
@@ -53,6 +72,7 @@ export class CartService extends BaseService<CartInterface>
 
     addVariant = (
         variant: VariantInterface,
+        product: ProductInterface,
         cart: CartInterface,
         quantity: number = 1,
         options: CartSyncOptions
@@ -73,13 +93,39 @@ export class CartService extends BaseService<CartInterface>
 
         if (!found) {
             const newItem = {
+                name: product.name,
                 variant: {
                     variantId: variant.id,
                     prices: variant.prices,
                     priceMap: variant.priceMap,
+                    attributes: [],
                 },
                 quantity: quantity,
+                images: []
             }
+
+            // TODO: Add product.images to CartItem! But if the product has images for a specific variant, only those should be added?!?!
+
+            for (const image of product.images) {
+                newItem.images.push(image)
+            }
+
+            for (const attribute of variant.attributes) {
+                const itemAttributeValues: CartItemVariantAttributeValueInterface[] = 
+                    attribute.values.map(value => {
+                        return {
+                            label: value.label
+                        }
+                    })
+
+                const itemAttribute: CartItemVariantAttributeInterface = {
+                    label: attribute.label,
+                    values: itemAttributeValues,
+                }
+
+                newItem.variant.attributes.push(itemAttribute)
+            }
+
             syncCart.items.push(newItem)
         }
 

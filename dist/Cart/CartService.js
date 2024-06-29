@@ -27,7 +27,7 @@ class CartService extends BaseService_1.BaseService {
             }, Object.assign({}, this.requestParams));
             return syncedCart;
         });
-        this.addVariant = (variant, cart, quantity = 1, options) => {
+        this.addVariant = (variant, product, cart, quantity = 1, options) => {
             let syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
             const found = syncCart.items.some((item, index) => {
                 if (item.variant.variantId === variant.id) {
@@ -38,13 +38,32 @@ class CartService extends BaseService_1.BaseService {
             });
             if (!found) {
                 const newItem = {
+                    name: product.name,
                     variant: {
                         variantId: variant.id,
                         prices: variant.prices,
                         priceMap: variant.priceMap,
+                        attributes: [],
                     },
                     quantity: quantity,
+                    images: []
                 };
+                // TODO: Add product.images to CartItem! But if the product has images for a specific variant, only those should be added?!?!
+                for (const image of product.images) {
+                    newItem.images.push(image);
+                }
+                for (const attribute of variant.attributes) {
+                    const itemAttributeValues = attribute.values.map(value => {
+                        return {
+                            label: value.label
+                        };
+                    });
+                    const itemAttribute = {
+                        label: attribute.label,
+                        values: itemAttributeValues,
+                    };
+                    newItem.variant.attributes.push(itemAttribute);
+                }
                 syncCart.items.push(newItem);
             }
             // if (options.shouldSync) {
