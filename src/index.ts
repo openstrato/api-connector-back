@@ -1,6 +1,7 @@
 import { AttributeService } from "./Attribute/AttributeService";
 import { CartService } from "./Cart/CartService";
 import HttpClient from "./Common/HttpClient";
+import OrderCalculator from "./Order/OrderCalculator";
 import { OrderService } from "./Order/OrderService";
 import { OrganizationService } from "./Organization/OrganizationService";
 import {ProductService} from "./Product/ProductService";
@@ -48,9 +49,10 @@ export function apiConnector(params: ApiParamsInterface)
     const attributeService = new AttributeService(params, httpClient);
     const taxService = new TaxService(params, httpClient);
     
-    const cartService = new CartService(params, httpClient);
-    
-    const orderService = new OrderService(params, httpClient);
+    const orderCalculator = new OrderCalculator();
+    const orderService = new OrderService(params, httpClient, orderCalculator);
+
+    const cartService = new CartService(params, httpClient, orderCalculator);
     
     const shopService = new ShopService(params, httpClient);
     const organizationService = new OrganizationService(params, httpClient);

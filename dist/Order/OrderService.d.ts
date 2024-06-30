@@ -1,4 +1,9 @@
+import { ApiParamsInterface } from "..";
+import { CartInterface } from "../Cart/CartService";
 import { BaseService } from "../Common/BaseService";
+import HttpClient from "../Common/HttpClient";
+import { PriceInterface } from "../Product/ProductService";
+import OrderCalculator from "./OrderCalculator";
 export interface OrderCreateInterface {
     cartId: string;
     payments?: OrderPaymentInterface[];
@@ -31,6 +36,9 @@ export interface AddressInterface {
     postalCode: string;
 }
 export declare class OrderService extends BaseService<OrderInterface, OrderCreateInterface> {
+    private orderCalculator;
     protected baseUrl: string;
+    constructor(params: ApiParamsInterface, httpClient: HttpClient, orderCalculator: OrderCalculator);
     confirm: (orderId: string) => Promise<OrderInterface>;
+    calculate: (cart: CartInterface, currency: string) => PriceInterface;
 }

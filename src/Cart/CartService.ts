@@ -1,10 +1,14 @@
+import { ApiParamsInterface } from "..";
 import { BaseService } from "../Common/BaseService";
+import HttpClient from "../Common/HttpClient";
+import OrderCalculator from "../Order/OrderCalculator";
 import { PriceInterface, PriceMapInterface, ProductInterface, VariantInterface } from "../Product/ProductService";
 
 export interface CartInterface
 {
     id: string;
     items: CartItemInterface[];
+    totalPrice: PriceMapInterface
 }
 
 export interface CartItemInterface
@@ -14,6 +18,7 @@ export interface CartItemInterface
     variant: CartItemVariantInterface;
     quantity: number;
     images: CartItemImageInterface[];
+    totalPrice: PriceMapInterface
 }
 
 export interface CartItemVariantInterface
@@ -48,6 +53,14 @@ export interface CartSyncOptions
 export class CartService extends BaseService<CartInterface>
 {
     protected baseUrl: string = `${this.params.cartApiUrl}/carts`;
+
+    constructor(
+        params: ApiParamsInterface,
+        httpClient: HttpClient,
+        private orderCalculator: OrderCalculator
+    ) {
+        super(params, httpClient)
+    }
 
     sync = async (cart: CartInterface): Promise<CartInterface> => {
         const syncItems = cart.items.map(cartItem => {
@@ -92,7 +105,7 @@ export class CartService extends BaseService<CartInterface>
         })
 
         if (!found) {
-            const newItem = {
+            const newItem: CartItemInterface = {
                 name: product.name,
                 variant: {
                     variantId: variant.id,
@@ -101,7 +114,8 @@ export class CartService extends BaseService<CartInterface>
                     attributes: [],
                 },
                 quantity: quantity,
-                images: []
+                images: [],
+                totalPrice: {}
             }
 
             // TODO: Add product.images to CartItem! But if the product has images for a specific variant, only those should be added?!?!
@@ -132,6 +146,9 @@ export class CartService extends BaseService<CartInterface>
         // if (options.shouldSync) {
         //     syncCart = this.sync(syncCart);
         // }
+
+        // TODO: hardcoded currency!!!
+        syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
         
         return syncCart;
     }
@@ -168,6 +185,9 @@ export class CartService extends BaseService<CartInterface>
         // if (options.shouldSync) {
         //     syncCart = await this.sync(syncCart);
         // }
+
+        // TODO: hardcoded currency!!!
+        syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
 
         return syncCart;
     }

@@ -12,8 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CartService = void 0;
 const BaseService_1 = require("../Common/BaseService");
 class CartService extends BaseService_1.BaseService {
-    constructor() {
-        super(...arguments);
+    constructor(params, httpClient, orderCalculator) {
+        super(params, httpClient);
+        this.orderCalculator = orderCalculator;
         this.baseUrl = `${this.params.cartApiUrl}/carts`;
         this.sync = (cart) => __awaiter(this, void 0, void 0, function* () {
             const syncItems = cart.items.map(cartItem => {
@@ -46,7 +47,8 @@ class CartService extends BaseService_1.BaseService {
                         attributes: [],
                     },
                     quantity: quantity,
-                    images: []
+                    images: [],
+                    totalPrice: {}
                 };
                 // TODO: Add product.images to CartItem! But if the product has images for a specific variant, only those should be added?!?!
                 for (const image of product.images) {
@@ -69,6 +71,8 @@ class CartService extends BaseService_1.BaseService {
             // if (options.shouldSync) {
             //     syncCart = this.sync(syncCart);
             // }
+            // TODO: hardcoded currency!!!
+            syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR');
             return syncCart;
         };
         this.removeVariant = (variant, cart, quantity = 1, options) => {
@@ -91,6 +95,8 @@ class CartService extends BaseService_1.BaseService {
             // if (options.shouldSync) {
             //     syncCart = await this.sync(syncCart);
             // }
+            // TODO: hardcoded currency!!!
+            syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR');
             return syncCart;
         };
     }

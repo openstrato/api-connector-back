@@ -12,13 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderService = void 0;
 const BaseService_1 = require("../Common/BaseService");
 class OrderService extends BaseService_1.BaseService {
-    constructor() {
-        super(...arguments);
+    constructor(params, httpClient, orderCalculator) {
+        super(params, httpClient);
+        this.orderCalculator = orderCalculator;
         this.baseUrl = `${this.params.orderApiUrl}/orders`;
         this.confirm = (orderId) => __awaiter(this, void 0, void 0, function* () {
             const order = yield this.httpClient.post(`${this.baseUrl}/${orderId}/confirm`, {}, this.requestParams, this.requestHeaders);
             return order;
         });
+        this.calculate = (cart, currency) => {
+            return this.orderCalculator.calculateTotalPrice(cart.items, currency);
+        };
     }
 }
 exports.OrderService = OrderService;

@@ -1,4 +1,9 @@
+import { ApiParamsInterface } from "..";
+import { CartInterface, CartItemInterface } from "../Cart/CartService";
 import { BaseService } from "../Common/BaseService";
+import HttpClient from "../Common/HttpClient";
+import { PriceInterface } from "../Product/ProductService";
+import OrderCalculator from "./OrderCalculator";
 
 export interface OrderCreateInterface
 {
@@ -45,6 +50,14 @@ export class OrderService extends BaseService<OrderInterface, OrderCreateInterfa
 {
     protected baseUrl: string = `${this.params.orderApiUrl}/orders`;
 
+    constructor(
+        params: ApiParamsInterface,
+        httpClient: HttpClient,
+        private orderCalculator: OrderCalculator
+    ) {
+        super(params, httpClient)
+    }
+
     confirm = async(orderId: string): Promise<OrderInterface> =>
     {
         const order = await this.httpClient.post(
@@ -55,5 +68,10 @@ export class OrderService extends BaseService<OrderInterface, OrderCreateInterfa
         );
 
         return order;
+    }
+
+    calculate = (cart: CartInterface, currency: string): PriceInterface =>
+    {
+        return this.orderCalculator.calculateTotalPrice(cart.items, currency)
     }
 }
