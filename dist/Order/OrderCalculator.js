@@ -8,6 +8,9 @@ class OrderCalculator {
         let totalTaxAmount = 0;
         for (const item of items) {
             if (item.variant.priceMap[currency] !== undefined) {
+                if (!item.totalPrice) {
+                    item.totalPrice = {};
+                }
                 item.totalPrice[currency] = {
                     withoutTaxes: item.variant.priceMap[currency].withoutTaxes * item.quantity,
                     withTaxes: item.variant.priceMap[currency].withTaxes * item.quantity,
