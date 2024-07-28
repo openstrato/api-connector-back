@@ -11,12 +11,7 @@ class OrderCalculator {
                 if (!item.totalPrice) {
                     item.totalPrice = {};
                 }
-                item.totalPrice[currency] = {
-                    withoutTaxes: item.variant.priceMap[currency].withoutTaxes * item.quantity,
-                    withTaxes: item.variant.priceMap[currency].withTaxes * item.quantity,
-                    taxAmount: item.variant.priceMap[currency].taxAmount * item.quantity,
-                    currency: item.variant.priceMap[currency].currency
-                };
+                item.totalPrice[currency] = this.calculateItemTotalPrice(item, currency);
                 totalWithoutTaxes += item.totalPrice[currency].withoutTaxes;
                 totalWithTaxes += item.totalPrice[currency].withTaxes;
                 totalTaxAmount += item.totalPrice[currency].taxAmount;
@@ -29,6 +24,14 @@ class OrderCalculator {
             currency: currency
         };
         return price;
+    }
+    calculateItemTotalPrice(item, currency) {
+        return {
+            withoutTaxes: item.variant.priceMap[currency].withoutTaxes * item.quantity,
+            withTaxes: item.variant.priceMap[currency].withTaxes * item.quantity,
+            taxAmount: item.variant.priceMap[currency].taxAmount * item.quantity,
+            currency: item.variant.priceMap[currency].currency
+        };
     }
 }
 exports.default = OrderCalculator;

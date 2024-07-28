@@ -16,12 +16,7 @@ export default class OrderCalculator
                     item.totalPrice = {}
                 }
 
-                item.totalPrice[currency] = {
-                    withoutTaxes: item.variant.priceMap[currency].withoutTaxes * item.quantity,
-                    withTaxes: item.variant.priceMap[currency].withTaxes * item.quantity,
-                    taxAmount: item.variant.priceMap[currency].taxAmount * item.quantity,
-                    currency: item.variant.priceMap[currency].currency
-                }
+                item.totalPrice[currency] = this.calculateItemTotalPrice(item, currency)
     
                 totalWithoutTaxes += item.totalPrice[currency].withoutTaxes;
                 totalWithTaxes += item.totalPrice[currency].withTaxes;
@@ -37,5 +32,15 @@ export default class OrderCalculator
         }
 
         return price;
+    }
+
+    calculateItemTotalPrice(item: CartItemInterface, currency: string): PriceInterface
+    {
+        return {
+            withoutTaxes: item.variant.priceMap[currency].withoutTaxes * item.quantity,
+            withTaxes: item.variant.priceMap[currency].withTaxes * item.quantity,
+            taxAmount: item.variant.priceMap[currency].taxAmount * item.quantity,
+            currency: item.variant.priceMap[currency].currency
+        }
     }
 }
