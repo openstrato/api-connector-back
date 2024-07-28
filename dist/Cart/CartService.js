@@ -17,15 +17,17 @@ class CartService extends BaseService_1.BaseService {
         this.orderCalculator = orderCalculator;
         this.baseUrl = `${this.params.cartApiUrl}/carts`;
         this.sync = (cart) => __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const syncItems = cart.items.map(cartItem => {
                 return {
                     variantId: cartItem.variant.variantId,
                     quantity: cartItem.quantity
                 };
             });
-            const syncedCart = yield this.httpClient.post(`${this.baseUrl}/${cart.id}`, {
+            const syncedCart = yield this.httpClient.post(`${this.baseUrl}/${(_a = cart.id) !== null && _a !== void 0 ? _a : ''}`, {
                 items: syncItems
             }, Object.assign({}, this.requestParams));
+            // syncedCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncedCart.items, 'EUR')
             return syncedCart;
         });
         this.addVariant = (variant, product, cart, quantity = 1, options) => {
@@ -72,7 +74,7 @@ class CartService extends BaseService_1.BaseService {
             //     syncCart = this.sync(syncCart);
             // }
             // TODO: hardcoded currency!!!
-            syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR');
+            // syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
             return syncCart;
         };
         this.removeVariant = (variant, cart, quantity = 1, options) => {

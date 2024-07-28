@@ -16,7 +16,7 @@ export class BaseService<T, createT = null, updateT = null>
         protected httpClient: HttpClient
     ) {}
 
-    find = async(params = {}): Promise<T[]> => {
+    async find(params = {}): Promise<T[]> {
         const entities = this.httpClient.get(
             this.baseUrl,
             {

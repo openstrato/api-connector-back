@@ -19,10 +19,6 @@ class BaseService {
             lang: this.params.lang,
         };
         this.requestHeaders = {};
-        this.find = (params = {}) => __awaiter(this, void 0, void 0, function* () {
-            const entities = this.httpClient.get(this.baseUrl, Object.assign(Object.assign({}, this.requestParams), params), {});
-            return entities;
-        });
         this.findById = (entityId) => __awaiter(this, void 0, void 0, function* () {
             const entity = this.httpClient.get(`${this.baseUrl}/${entityId}`, this.requestParams, {});
             return entity;
@@ -39,6 +35,12 @@ class BaseService {
             // TODO: still unsure what this will return
             const success = this.httpClient.delete(`${this.baseUrl}/${entityId}`, this.requestParams, {});
             return success;
+        });
+    }
+    find(params = {}) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const entities = this.httpClient.get(this.baseUrl, Object.assign(Object.assign({}, this.requestParams), params), {});
+            return entities;
         });
     }
 }

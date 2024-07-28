@@ -71,7 +71,7 @@ export class CartService extends BaseService<CartInterface>
         })
 
         const syncedCart = await this.httpClient.post(
-            `${this.baseUrl}/${cart.id}`,
+            `${this.baseUrl}/${cart.id ?? ''}`,
             {
                 items: syncItems
             },
@@ -79,6 +79,8 @@ export class CartService extends BaseService<CartInterface>
                 ...this.requestParams
             }
         )
+
+        // syncedCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncedCart.items, 'EUR')
 
         return syncedCart;
     }
@@ -148,7 +150,8 @@ export class CartService extends BaseService<CartInterface>
         // }
 
         // TODO: hardcoded currency!!!
-        syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
+
+        // syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
         
         return syncCart;
     }
