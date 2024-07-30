@@ -27,56 +27,8 @@ class CartService extends BaseService_1.BaseService {
             const syncedCart = yield this.httpClient.post(`${this.baseUrl}/${(_a = cart.id) !== null && _a !== void 0 ? _a : ''}`, {
                 items: syncItems
             }, Object.assign({}, this.requestParams));
-            // syncedCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncedCart.items, 'EUR')
             return syncedCart;
         });
-        this.addVariant = (variant, product, cart, quantity = 1, options) => {
-            let syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
-            const found = syncCart.items.some((item, index) => {
-                if (item.variant.variantId === variant.id) {
-                    const updatedItem = Object.assign(Object.assign({}, item), { quantity: item.quantity + quantity });
-                    syncCart.items.splice(index, 1, updatedItem);
-                    return true;
-                }
-            });
-            if (!found) {
-                const newItem = {
-                    name: product.name,
-                    variant: {
-                        variantId: variant.id,
-                        prices: variant.prices,
-                        priceMap: variant.priceMap,
-                        attributes: [],
-                    },
-                    quantity: quantity,
-                    images: [],
-                    totalPrice: {}
-                };
-                // TODO: Add product.images to CartItem! But if the product has images for a specific variant, only those should be added?!?!
-                for (const image of product.images) {
-                    newItem.images.push(image);
-                }
-                for (const attribute of variant.attributes) {
-                    const itemAttributeValues = attribute.values.map(value => {
-                        return {
-                            label: value.label
-                        };
-                    });
-                    const itemAttribute = {
-                        label: attribute.label,
-                        values: itemAttributeValues,
-                    };
-                    newItem.variant.attributes.push(itemAttribute);
-                }
-                syncCart.items.push(newItem);
-            }
-            // if (options.shouldSync) {
-            //     syncCart = this.sync(syncCart);
-            // }
-            // TODO: hardcoded currency!!!
-            // syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
-            return syncCart;
-        };
         this.removeVariant = (variant, cart, quantity = 1, options) => {
             let syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
             const found = syncCart.items.some((item, index) => {
@@ -99,8 +51,57 @@ class CartService extends BaseService_1.BaseService {
             // }
             // TODO: hardcoded currency!!!
             syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR');
+            syncCart.totalQuantity -= quantity;
             return syncCart;
         };
+    }
+    addVariant(variant, product, cart, quantity = 1, options) {
+        let syncCart = Object.assign(Object.assign({}, cart), { items: [...cart.items] });
+        const found = syncCart.items.some((item, index) => {
+            if (item.variant.variantId === variant.id) {
+                const updatedItem = Object.assign(Object.assign({}, item), { quantity: item.quantity + quantity });
+                syncCart.items.splice(index, 1, updatedItem);
+                return true;
+            }
+        });
+        if (!found) {
+            const newItem = {
+                name: product.name,
+                variant: {
+                    variantId: variant.id,
+                    prices: variant.prices,
+                    priceMap: variant.priceMap,
+                    attributes: [],
+                },
+                quantity: quantity,
+                images: [],
+                totalPrice: {}
+            };
+            // TODO: Add product.images to CartItem?! But if the product has images for a specific variant, only those should be added?!?!
+            for (const image of product.images) {
+                newItem.images.push(image);
+            }
+            for (const attribute of variant.attributes) {
+                const itemAttributeValues = attribute.values.map(value => {
+                    return {
+                        label: value.label
+                    };
+                });
+                const itemAttribute = {
+                    label: attribute.label,
+                    values: itemAttributeValues,
+                };
+                newItem.variant.attributes.push(itemAttribute);
+            }
+            syncCart.items.push(newItem);
+        }
+        // if (options.shouldSync) {
+        //     syncCart = this.sync(syncCart);
+        // }
+        // TODO: hardcoded currency!!!
+        syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR');
+        syncCart.totalQuantity += quantity;
+        return syncCart;
     }
 }
 exports.CartService = CartService;

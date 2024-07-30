@@ -8,7 +8,8 @@ export interface CartInterface
 {
     id: string;
     items: CartItemInterface[];
-    totalPrice: PriceMapInterface
+    totalPrice: PriceMapInterface;
+    totalQuantity: number;
 }
 
 export interface CartItemInterface
@@ -18,7 +19,7 @@ export interface CartItemInterface
     variant: CartItemVariantInterface;
     quantity: number;
     images: CartItemImageInterface[];
-    totalPrice: PriceMapInterface
+    totalPrice: PriceMapInterface;
 }
 
 export interface CartItemVariantInterface
@@ -47,7 +48,7 @@ export interface CartItemImageInterface
 
 export interface CartSyncOptions
 {
-    shouldSync: boolean,
+    shouldSync: boolean;
 }
 
 export class CartService extends BaseService<CartInterface>
@@ -80,19 +81,17 @@ export class CartService extends BaseService<CartInterface>
             }
         )
 
-        // syncedCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncedCart.items, 'EUR')
-
         return syncedCart;
     }
 
-    addVariant = (
+    addVariant (
         variant: VariantInterface,
         product: ProductInterface,
         cart: CartInterface,
         quantity: number = 1,
         options: CartSyncOptions
-    ) => {
-        let syncCart = {...cart, items: [...cart.items]};
+    ) {
+        let syncCart: CartInterface = {...cart, items: [...cart.items]};
 
         const found: boolean = syncCart.items.some((item, index) => {
             if (item.variant.variantId === variant.id) {
@@ -120,8 +119,7 @@ export class CartService extends BaseService<CartInterface>
                 totalPrice: {}
             }
 
-            // TODO: Add product.images to CartItem! But if the product has images for a specific variant, only those should be added?!?!
-
+            // TODO: Add product.images to CartItem?! But if the product has images for a specific variant, only those should be added?!?!
             for (const image of product.images) {
                 newItem.images.push(image)
             }
@@ -151,7 +149,8 @@ export class CartService extends BaseService<CartInterface>
 
         // TODO: hardcoded currency!!!
 
-        // syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
+        syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
+        syncCart.totalQuantity += quantity;
         
         return syncCart;
     }
@@ -191,6 +190,7 @@ export class CartService extends BaseService<CartInterface>
 
         // TODO: hardcoded currency!!!
         syncCart.totalPrice['EUR'] = this.orderCalculator.calculateTotalPrice(syncCart.items, 'EUR')
+        syncCart.totalQuantity -= quantity;
 
         return syncCart;
     }

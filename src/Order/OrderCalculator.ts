@@ -2,7 +2,7 @@ import { CartItemInterface } from "../Cart/CartService";
 import { PriceInterface } from "../Product/ProductService";
 
 export default class OrderCalculator
-{
+{    
     //TODO: add taxes, delivery costs, discounts, ...
     calculateTotalPrice(items: CartItemInterface[], currency: string): PriceInterface
     {

@@ -7,6 +7,7 @@ export interface CartInterface {
     id: string;
     items: CartItemInterface[];
     totalPrice: PriceMapInterface;
+    totalQuantity: number;
 }
 export interface CartItemInterface {
     id?: string;
@@ -40,14 +41,11 @@ export declare class CartService extends BaseService<CartInterface> {
     protected baseUrl: string;
     constructor(params: ApiParamsInterface, httpClient: HttpClient, orderCalculator: OrderCalculator);
     sync: (cart: CartInterface) => Promise<CartInterface>;
-    addVariant: (variant: VariantInterface, product: ProductInterface, cart: CartInterface, quantity: number, options: CartSyncOptions) => {
-        items: CartItemInterface[];
-        id: string;
-        totalPrice: PriceMapInterface;
-    };
+    addVariant(variant: VariantInterface, product: ProductInterface, cart: CartInterface, quantity: number, options: CartSyncOptions): CartInterface;
     removeVariant: (variant: CartItemVariantInterface, cart: CartInterface, quantity: number, options: CartSyncOptions) => {
         items: CartItemInterface[];
         id: string;
         totalPrice: PriceMapInterface;
+        totalQuantity: number;
     };
 }
