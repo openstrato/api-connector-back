@@ -10,6 +10,7 @@ export interface OrderCreateInterface
     cartId: string;
     payments?: OrderPaymentInterface[];
     shippingAddress?: AddressInterface;
+    billingAddress?: AddressInterface;
 }
 
 export interface OrderInterface
@@ -19,6 +20,7 @@ export interface OrderInterface
     availableMethods: PaymentMethodInterface[];
     payments: OrderPaymentInterface[];
     shippingAddress: AddressInterface;
+    billingAddress?: AddressInterface;
 }
 
 export interface PaymentMethodInterface
