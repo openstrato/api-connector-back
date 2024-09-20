@@ -11,6 +11,7 @@ export interface OrderCreateInterface
     payments?: OrderPaymentInterface[];
     shippingAddress?: AddressInterface;
     billingAddress?: AddressInterface;
+    isConfirmation?: boolean;
 }
 
 export interface OrderInterface
@@ -21,6 +22,7 @@ export interface OrderInterface
     payments: OrderPaymentInterface[];
     shippingAddress: AddressInterface;
     billingAddress?: AddressInterface;
+    status: string;
 }
 
 export interface PaymentMethodInterface
