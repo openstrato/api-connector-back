@@ -1,13 +1,14 @@
 import { AttributeService } from "./Attribute/AttributeService";
 import { CartService } from "./Cart/CartService";
+import { CategoryService } from "./Category/CategoryService";
 import HttpClient from "./Common/HttpClient";
 import OrderCalculator from "./Order/OrderCalculator";
 import { OrderService } from "./Order/OrderService";
 import { OrganizationService } from "./Organization/OrganizationService";
 import {ProductService} from "./Product/ProductService";
 import { ShopService } from "./Shop/ShopService";
-import TaxService from "./Tax/TaxService";
-import UserService from "./User/UserService";
+import { TaxService } from "./Tax/TaxService";
+import { UserService } from "./User/UserService";
 
 export interface ApiParamsInterface
 {
@@ -29,7 +30,7 @@ const defaultParams: ApiParamsInterface = {
     lang: 'en',
     currency: 'EUR',
     productApiUrl: 'http://products.shop.localhost',
-    orderApiUrl: 'http://shop_api:3004',
+    orderApiUrl: 'http://orders.shop.localhost',
     cartApiUrl: 'http://carts.shop.localhost',
     extensionApiUrl: 'http://extension.shop.localhost',
     shopApiUrl: 'http://shops.shop.localhost',
@@ -48,6 +49,7 @@ export function apiConnector(params: ApiParamsInterface)
     const productService = new ProductService(params, httpClient);
     const attributeService = new AttributeService(params, httpClient);
     const taxService = new TaxService(params, httpClient);
+    const categoryService = new CategoryService(params, httpClient);
     
     const orderCalculator = new OrderCalculator();
     const orderService = new OrderService(params, httpClient, orderCalculator);
@@ -65,9 +67,10 @@ export function apiConnector(params: ApiParamsInterface)
     const connector = {
         products: productService,
         attributes: attributeService,
+        taxes: taxService,
+        categories: categoryService,
         carts: cartService,
         orders: orderService,
-        taxes: taxService,
         shops: shopService,
         organizations: organizationService,
         users: userService,

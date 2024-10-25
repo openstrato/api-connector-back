@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TaxService = void 0;
 const BaseService_1 = require("../Common/BaseService");
 class TaxService extends BaseService_1.BaseService {
     constructor() {
@@ -7,4 +8,4 @@ class TaxService extends BaseService_1.BaseService {
         this.baseUrl = `${this.params.productApiUrl}/taxes`;
     }
 }
-exports.default = TaxService;
+exports.TaxService = TaxService;

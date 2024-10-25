@@ -8,7 +8,7 @@ interface TaxTranslation {
     lang: string;
     name: string;
 }
-export default class TaxService extends BaseService<Tax, Tax, Tax> {
+export declare class TaxService extends BaseService<Tax, Tax, Tax> {
     protected baseUrl: string;
 }
 export {};

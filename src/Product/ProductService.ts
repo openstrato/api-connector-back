@@ -6,6 +6,7 @@ export interface ProductInterface
     name: string;
     variants: VariantInterface[];
     images: ImageInterface[];
+    shops: ProductShopInterface[];
 }
 
 export interface VariantInterface
@@ -25,6 +26,11 @@ export interface ProductAttributeInterface
 export interface ProductAttributeValueInterface
 {
     label: string;
+}
+
+export interface ProductShopInterface
+{
+    shopId: string;
 }
 
 export interface CreateProduct

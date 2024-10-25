@@ -5,6 +5,6 @@ export interface User {
     lastName: string;
     email: string;
 }
-export default class UserService extends BaseService<User> {
+export declare class UserService extends BaseService<User> {
     protected baseUrl: string;
 }

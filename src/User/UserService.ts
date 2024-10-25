@@ -8,7 +8,7 @@ export interface User
     email: string;
 }
 
-export default class UserService extends BaseService<User>
+export class UserService extends BaseService<User>
 {
     protected baseUrl = `${this.params.authApiUrl}/users`
 }

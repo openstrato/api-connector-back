@@ -13,7 +13,7 @@ interface TaxTranslation
     name: string;
 }
 
-export default class TaxService extends BaseService<Tax, Tax, Tax>
+export class TaxService extends BaseService<Tax, Tax, Tax>
 {
     protected baseUrl: string = `${this.params.productApiUrl}/taxes`
 }
