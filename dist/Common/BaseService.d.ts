@@ -8,7 +8,7 @@ export declare class BaseService<T, createT = null, updateT = null> {
     protected requestHeaders: any;
     constructor(params: ApiParamsInterface, httpClient: HttpClient);
     find(params?: {}): Promise<T[]>;
-    findById: (entityId: string) => Promise<T>;
+    findById: (entityId: string, params?: {}) => Promise<T>;
     update: (entityId: string, updateData: updateT) => Promise<T>;
     create: (createData: createT) => Promise<T>;
     delete: (entityId: string) => Promise<boolean>;

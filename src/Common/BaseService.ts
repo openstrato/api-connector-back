@@ -29,10 +29,13 @@ export class BaseService<T, createT = null, updateT = null>
         return entities;
     }
 
-    findById = async(entityId: string): Promise<T> => {
+    findById = async(entityId: string, params = {}): Promise<T> => {
         const entity = this.httpClient.get(
             `${this.baseUrl}/${entityId}`,
-            this.requestParams,
+            {
+                ...this.requestParams,
+                ...params
+            },
             {}
         )
 

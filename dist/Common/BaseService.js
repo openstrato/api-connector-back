@@ -19,8 +19,8 @@ class BaseService {
             lang: this.params.lang,
         };
         this.requestHeaders = {};
-        this.findById = (entityId) => __awaiter(this, void 0, void 0, function* () {
-            const entity = this.httpClient.get(`${this.baseUrl}/${entityId}`, this.requestParams, {});
+        this.findById = (entityId, params = {}) => __awaiter(this, void 0, void 0, function* () {
+            const entity = this.httpClient.get(`${this.baseUrl}/${entityId}`, Object.assign(Object.assign({}, this.requestParams), params), {});
             return entity;
         });
         this.update = (entityId, updateData) => __awaiter(this, void 0, void 0, function* () {
