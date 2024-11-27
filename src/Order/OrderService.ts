@@ -64,7 +64,7 @@ export class OrderService extends BaseService<OrderInterface, OrderCreateInterfa
 
     confirm = async(orderId: string): Promise<OrderInterface> =>
     {
-        const order = await this.httpClient.post(
+        const order = this.httpClient.post(
             `${this.baseUrl}/${orderId}/confirm`,
             {},
             this.requestParams,

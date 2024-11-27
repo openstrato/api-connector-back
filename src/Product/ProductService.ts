@@ -61,4 +61,17 @@ export interface PriceMapInterface
 export class ProductService extends BaseService<ProductInterface>
 {
     protected baseUrl: string = `${this.params.productApiUrl}/products`
+
+    getAttributeFilters = async(params = {}): Promise<ProductAttributeInterface[]> =>
+    {
+        const filters = this.httpClient.get(
+            `${this.baseUrl}/filters`,
+            {
+                ...this.requestParams,
+                ...params,
+            },
+        )
+
+        return filters
+    }
 }
