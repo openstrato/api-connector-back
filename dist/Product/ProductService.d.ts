@@ -41,4 +41,5 @@ export interface PriceMapInterface {
 }
 export declare class ProductService extends BaseService<ProductInterface> {
     protected baseUrl: string;
+    getAttributeFilters: (params?: {}) => Promise<ProductAttributeInterface[]>;
 }

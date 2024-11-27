@@ -17,7 +17,7 @@ class OrderService extends BaseService_1.BaseService {
         this.orderCalculator = orderCalculator;
         this.baseUrl = `${this.params.orderApiUrl}/orders`;
         this.confirm = (orderId) => __awaiter(this, void 0, void 0, function* () {
-            const order = yield this.httpClient.post(`${this.baseUrl}/${orderId}/confirm`, {}, this.requestParams, this.requestHeaders);
+            const order = this.httpClient.post(`${this.baseUrl}/${orderId}/confirm`, {}, this.requestParams, this.requestHeaders);
             return order;
         });
         this.calculate = (cart, currency) => {
