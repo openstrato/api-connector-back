@@ -1,6 +1,7 @@
 import { AttributeService } from "./Attribute/AttributeService";
 import { CartService } from "./Cart/CartService";
 import { CategoryService } from "./Category/CategoryService";
+import { ImportService } from "./Import/ImportService";
 import { OrderService } from "./Order/OrderService";
 import { OrganizationService } from "./Organization/OrganizationService";
 import { ProductService } from "./Product/ProductService";
@@ -24,6 +25,7 @@ export declare function apiConnector(params: ApiParamsInterface): {
     attributes: AttributeService;
     taxes: TaxService;
     categories: CategoryService;
+    imports: ImportService;
     carts: CartService;
     orders: OrderService;
     shops: ShopService;

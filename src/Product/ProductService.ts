@@ -6,6 +6,7 @@ export interface ProductInterface
     name: string;
     variants: VariantInterface[];
     images: ImageInterface[];
+    allImages: ImageInterface[];
     shops: ProductShopInterface[];
 }
 

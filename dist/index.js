@@ -5,6 +5,7 @@ const AttributeService_1 = require("./Attribute/AttributeService");
 const CartService_1 = require("./Cart/CartService");
 const CategoryService_1 = require("./Category/CategoryService");
 const HttpClient_1 = require("./Common/HttpClient");
+const ImportService_1 = require("./Import/ImportService");
 const OrderCalculator_1 = require("./Order/OrderCalculator");
 const OrderService_1 = require("./Order/OrderService");
 const OrganizationService_1 = require("./Organization/OrganizationService");
@@ -31,6 +32,7 @@ function apiConnector(params) {
     const attributeService = new AttributeService_1.AttributeService(params, httpClient);
     const taxService = new TaxService_1.TaxService(params, httpClient);
     const categoryService = new CategoryService_1.CategoryService(params, httpClient);
+    const importService = new ImportService_1.ImportService(params, httpClient);
     const orderCalculator = new OrderCalculator_1.default();
     const orderService = new OrderService_1.OrderService(params, httpClient, orderCalculator);
     const cartService = new CartService_1.CartService(params, httpClient, orderCalculator);
@@ -44,6 +46,7 @@ function apiConnector(params) {
         attributes: attributeService,
         taxes: taxService,
         categories: categoryService,
+        imports: importService,
         carts: cartService,
         orders: orderService,
         shops: shopService,
