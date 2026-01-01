@@ -10,6 +10,7 @@ import {ProductService} from "./Product/ProductService";
 import { ShopService } from "./Shop/ShopService";
 import { TaxService } from "./Tax/TaxService";
 import { UserService } from "./User/UserService";
+import { LanguageService } from "./Language/LanguageService";
 
 export interface ApiParamsInterface
 {
@@ -30,12 +31,12 @@ const defaultParams: ApiParamsInterface = {
     channelToken: undefined,
     lang: 'en',
     currency: 'EUR',
-    productApiUrl: 'http://products.shop.localhost',
-    orderApiUrl: 'http://orders.shop.localhost',
-    cartApiUrl: 'http://carts.shop.localhost',
-    extensionApiUrl: 'http://extension.shop.localhost',
-    shopApiUrl: 'http://shops.shop.localhost',
-    authApiUrl: 'http://auth.shop.localhost',
+    productApiUrl: 'http://api.shop.localhost/product-api',
+    orderApiUrl: 'http://api.shop.localhost/order-api',
+    cartApiUrl: 'http://api.shop.localhost/cart-api',
+    extensionApiUrl: 'http://api.shop.localhost/extension-api',
+    shopApiUrl: 'http://api.shop.localhost/shop-api',
+    authApiUrl: 'http://api.shop.localhost/auth-api',
 }
 
 export function apiConnector(params: ApiParamsInterface)
@@ -62,6 +63,7 @@ export function apiConnector(params: ApiParamsInterface)
     const organizationService = new OrganizationService(params, httpClient);
 
     const userService = new UserService(params, httpClient);
+    const languageService = new LanguageService(params, httpClient);
 
     // - handle payment methods
     // - ability to add a payment (other than stripe)
@@ -77,6 +79,7 @@ export function apiConnector(params: ApiParamsInterface)
         shops: shopService,
         organizations: organizationService,
         users: userService,
+        languages: languageService,
     }
 
     return connector;

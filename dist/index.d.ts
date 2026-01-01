@@ -8,6 +8,7 @@ import { ProductService } from "./Product/ProductService";
 import { ShopService } from "./Shop/ShopService";
 import { TaxService } from "./Tax/TaxService";
 import { UserService } from "./User/UserService";
+import { LanguageService } from "./Language/LanguageService";
 export interface ApiParamsInterface {
     accessToken?: string;
     channelToken?: string;
@@ -31,4 +32,5 @@ export declare function apiConnector(params: ApiParamsInterface): {
     shops: ShopService;
     organizations: OrganizationService;
     users: UserService;
+    languages: LanguageService;
 };
