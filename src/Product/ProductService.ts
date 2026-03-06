@@ -4,6 +4,7 @@ export interface ProductInterface
 {
     id: string;
     name: string;
+    description?: string;
     variants: VariantInterface[];
     images: ImageInterface[];
     allImages: ImageInterface[];
