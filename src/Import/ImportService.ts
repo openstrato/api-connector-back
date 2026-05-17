@@ -29,11 +29,15 @@ export class ImportService extends BaseService<Import, ImportCreate, ImportUpdat
 {
     protected baseUrl: string = `${this.params.productApiUrl}/imports`
 
-    startImport = async(importId: string): Promise<any> => {
+    startImport = async(importId: string, options?: { forceRestart?: boolean; forceImageRegeneration?: boolean }): Promise<any> => {
+        const params: Record<string, string> = {}
+        if (options?.forceRestart) params.forceRestart = 'true'
+        if (options?.forceImageRegeneration !== undefined) params.forceImageRegeneration = String(options.forceImageRegeneration)
+
         const result = this.httpClient.post(
             `${this.baseUrl}/${importId}/start`,
             {},
-            this.requestParams,
+            { ...this.requestParams, ...params },
             {}
         )
 
