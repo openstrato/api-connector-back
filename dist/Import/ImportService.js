@@ -15,8 +15,13 @@ class ImportService extends BaseService_1.BaseService {
     constructor() {
         super(...arguments);
         this.baseUrl = `${this.params.productApiUrl}/imports`;
-        this.startImport = (importId) => __awaiter(this, void 0, void 0, function* () {
-            const result = this.httpClient.post(`${this.baseUrl}/${importId}/start`, {}, this.requestParams, {});
+        this.startImport = (importId, options) => __awaiter(this, void 0, void 0, function* () {
+            const params = {};
+            if (options === null || options === void 0 ? void 0 : options.forceRestart)
+                params.forceRestart = 'true';
+            if ((options === null || options === void 0 ? void 0 : options.forceImageRegeneration) !== undefined)
+                params.forceImageRegeneration = String(options.forceImageRegeneration);
+            const result = this.httpClient.post(`${this.baseUrl}/${importId}/start`, {}, Object.assign(Object.assign({}, this.requestParams), params), {});
             return result;
         });
         this.previewImport = (importId) => __awaiter(this, void 0, void 0, function* () {
