@@ -20,7 +20,10 @@ interface ImportUpdate {
 }
 export declare class ImportService extends BaseService<Import, ImportCreate, ImportUpdate> {
     protected baseUrl: string;
-    startImport: (importId: string, options?: { forceRestart?: boolean; forceImageRegeneration?: boolean }) => Promise<any>;
+    startImport: (importId: string, options?: {
+        forceRestart?: boolean;
+        forceImageRegeneration?: boolean;
+    }) => Promise<any>;
     previewImport: (importId: string) => Promise<any>;
 }
 export {};
