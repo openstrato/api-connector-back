@@ -3,7 +3,12 @@ import { BaseService } from "../Common/BaseService";
 export interface CategoryInterface
 {
     id: string;
+    name: string;
+    slug: string;
+    parentId?: string | null;
     translations: CategoryTranslationInterface[];
+    parents?: CategoryInterface[];
+    children?: CategoryInterface[];
 }
 
 export interface CategoryTranslationInterface
