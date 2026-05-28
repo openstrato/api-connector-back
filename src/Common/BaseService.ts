@@ -64,6 +64,16 @@ export class BaseService<T, createT = null, updateT = null>
         return entity;
     }
 
+    updateBulk = async (data: any): Promise<any> => {
+        const result = this.httpClient.post(
+            `${this.baseUrl}/bulk`,
+            data,
+            this.requestParams,
+            {}
+        )
+        return result;
+    }
+
     delete = async(entityId: string): Promise<boolean> => {
         // TODO: still unsure what this will return
         const success = this.httpClient.delete(

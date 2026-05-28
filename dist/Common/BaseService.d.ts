@@ -11,5 +11,6 @@ export declare class BaseService<T, createT = null, updateT = null> {
     findById: (entityId: string, params?: {}) => Promise<T>;
     update: (entityId: string, updateData: updateT) => Promise<T>;
     create: (createData: createT) => Promise<T>;
+    updateBulk: (data: any) => Promise<any>;
     delete: (entityId: string) => Promise<boolean>;
 }

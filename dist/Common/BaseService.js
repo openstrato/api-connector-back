@@ -31,6 +31,10 @@ class BaseService {
             const entity = this.httpClient.post(`${this.baseUrl}`, createData, this.requestParams, {});
             return entity;
         });
+        this.updateBulk = (data) => __awaiter(this, void 0, void 0, function* () {
+            const result = this.httpClient.post(`${this.baseUrl}/bulk`, data, this.requestParams, {});
+            return result;
+        });
         this.delete = (entityId) => __awaiter(this, void 0, void 0, function* () {
             // TODO: still unsure what this will return
             const success = this.httpClient.delete(`${this.baseUrl}/${entityId}`, this.requestParams, {});
