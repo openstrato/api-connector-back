@@ -16,6 +16,7 @@ export interface CartItemInterface {
     quantity: number;
     images: CartItemImageInterface[];
     totalPrice: PriceMapInterface;
+    productUrlPath?: string;
 }
 export interface CartItemVariantInterface {
     variantId: string;
@@ -35,6 +36,7 @@ export interface CartItemImageInterface {
 }
 export interface CartSyncOptions {
     shouldSync: boolean;
+    productUrlPath?: string;
 }
 export declare class CartService extends BaseService<CartInterface> {
     private orderCalculator;

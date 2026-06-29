@@ -21,7 +21,8 @@ class CartService extends BaseService_1.BaseService {
             const syncItems = cart.items.map(cartItem => {
                 return {
                     variantId: cartItem.variant.variantId,
-                    quantity: cartItem.quantity
+                    quantity: cartItem.quantity,
+                    productUrlPath: cartItem.productUrlPath,
                 };
             });
             const syncedCart = yield this.httpClient.post(`${this.baseUrl}/${(_a = cart.id) !== null && _a !== void 0 ? _a : ''}`, {
@@ -75,7 +76,8 @@ class CartService extends BaseService_1.BaseService {
                 },
                 quantity: quantity,
                 images: [],
-                totalPrice: {}
+                totalPrice: {},
+                productUrlPath: options.productUrlPath,
             };
             // TODO: Add product.images to CartItem?! But if the product has images for a specific variant, only those should be added?!?!
             for (const image of product.images) {
