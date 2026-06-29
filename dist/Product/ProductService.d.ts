@@ -1,6 +1,7 @@
 import { BaseService } from "../Common/BaseService";
 export interface ProductInterface {
     id: string;
+    slug?: string;
     name: string;
     description?: string;
     variants: VariantInterface[];
