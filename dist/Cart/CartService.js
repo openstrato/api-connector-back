@@ -19,7 +19,11 @@ class CartService extends BaseService_1.BaseService {
         this.sync = (cart) => __awaiter(this, void 0, void 0, function* () {
             var _a;
             const syncItems = cart.items.map(cartItem => {
-                return Object.assign({ variantId: cartItem.variant.variantId, quantity: cartItem.quantity }, (cartItem.productUrlPath ? { productUrlPath: cartItem.productUrlPath } : {}));
+                return {
+                    variantId: cartItem.variant.variantId,
+                    quantity: cartItem.quantity,
+                    productUrlPath: cartItem.productUrlPath,
+                };
             });
             const syncedCart = yield this.httpClient.post(`${this.baseUrl}/${(_a = cart.id) !== null && _a !== void 0 ? _a : ''}`, {
                 items: syncItems

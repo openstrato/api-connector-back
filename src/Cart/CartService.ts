@@ -70,7 +70,7 @@ export class CartService extends BaseService<CartInterface>
             return {
                 variantId: cartItem.variant.variantId,
                 quantity: cartItem.quantity,
-                ...(cartItem.productUrlPath ? { productUrlPath: cartItem.productUrlPath } : {}),
+                productUrlPath: cartItem.productUrlPath,
             }
         })
 
