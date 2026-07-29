@@ -11,13 +11,15 @@ export default class OrderCalculator
         let totalTaxAmount: number = 0;
 
         for (const item of items) {
-            if (item.variant.priceMap[currency] !== undefined) {
+            if (item.variant.priceMap?.[currency] !== undefined) {
                 if (!item.totalPrice) {
                     item.totalPrice = {}
                 }
 
                 item.totalPrice[currency] = this.calculateItemTotalPrice(item, currency)
-    
+            }
+
+            if (item.totalPrice?.[currency]) {
                 totalWithoutTaxes += item.totalPrice[currency].withoutTaxes;
                 totalWithTaxes += item.totalPrice[currency].withTaxes;
                 totalTaxAmount += item.totalPrice[currency].taxAmount;
