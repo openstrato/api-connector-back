@@ -1,4 +1,4 @@
-FROM node:18.9.0
+FROM docker.io/library/node:18.9.0
 ENV NODE_ENV development
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
