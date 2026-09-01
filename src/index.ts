@@ -11,6 +11,7 @@ import { ShopService } from "./Shop/ShopService";
 import { TaxService } from "./Tax/TaxService";
 import { UserService } from "./User/UserService";
 import { LanguageService } from "./Language/LanguageService";
+import { PaymentAccountService } from "./PaymentAccount/PaymentAccountService";
 
 export interface ApiParamsInterface
 {
@@ -64,6 +65,7 @@ export function apiConnector(params: ApiParamsInterface)
 
     const userService = new UserService(params, httpClient);
     const languageService = new LanguageService(params, httpClient);
+    const paymentAccountService = new PaymentAccountService(params, httpClient);
 
     // - handle payment methods
     // - ability to add a payment (other than stripe)
@@ -80,6 +82,7 @@ export function apiConnector(params: ApiParamsInterface)
         organizations: organizationService,
         users: userService,
         languages: languageService,
+        paymentAccounts: paymentAccountService,
     }
 
     return connector;
