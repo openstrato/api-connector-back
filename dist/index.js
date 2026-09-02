@@ -14,6 +14,7 @@ const ShopService_1 = require("./Shop/ShopService");
 const TaxService_1 = require("./Tax/TaxService");
 const UserService_1 = require("./User/UserService");
 const LanguageService_1 = require("./Language/LanguageService");
+const PaymentAccountService_1 = require("./PaymentAccount/PaymentAccountService");
 const defaultParams = {
     accessToken: undefined,
     channelToken: undefined,
@@ -41,6 +42,7 @@ function apiConnector(params) {
     const organizationService = new OrganizationService_1.OrganizationService(params, httpClient);
     const userService = new UserService_1.UserService(params, httpClient);
     const languageService = new LanguageService_1.LanguageService(params, httpClient);
+    const paymentAccountService = new PaymentAccountService_1.PaymentAccountService(params, httpClient);
     // - handle payment methods
     // - ability to add a payment (other than stripe)
     const connector = {
@@ -55,6 +57,7 @@ function apiConnector(params) {
         organizations: organizationService,
         users: userService,
         languages: languageService,
+        paymentAccounts: paymentAccountService,
     };
     return connector;
 }

@@ -9,6 +9,7 @@ import { ShopService } from "./Shop/ShopService";
 import { TaxService } from "./Tax/TaxService";
 import { UserService } from "./User/UserService";
 import { LanguageService } from "./Language/LanguageService";
+import { PaymentAccountService } from "./PaymentAccount/PaymentAccountService";
 export interface ApiParamsInterface {
     accessToken?: string;
     channelToken?: string;
@@ -33,4 +34,5 @@ export declare function apiConnector(params: ApiParamsInterface): {
     organizations: OrganizationService;
     users: UserService;
     languages: LanguageService;
+    paymentAccounts: PaymentAccountService;
 };
