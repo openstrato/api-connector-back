@@ -52,6 +52,22 @@ class HttpClient {
             }
         });
     }
+    patch(url, data, params, headers = {}) {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield axios_1.default.patch(url, data, {
+                    withCredentials: this.withCredentials,
+                    headers: Object.assign(Object.assign({}, headers), this.defaultHeaders),
+                    params: params,
+                });
+                return response.data;
+            }
+            catch (error) {
+                throw new Error((_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data) !== null && _b !== void 0 ? _b : error);
+            }
+        });
+    }
     delete(url, params, headers = {}) {
         return __awaiter(this, void 0, void 0, function* () {
             const response = yield axios_1.default.delete(url, {
