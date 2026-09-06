@@ -6,6 +6,7 @@ export interface PaymentProviderAccountInterface {
     provider: string;
     linkMode: string;
     externalAccountId?: string;
+    previousExternalAccountIds: string[];
     status: string;
     chargesEnabled: boolean;
     payoutsEnabled: boolean;
@@ -20,5 +21,9 @@ export declare class PaymentAccountService extends BaseService<PaymentProviderAc
     getStripeAuthorizeUrl: (shopIds: string[]) => Promise<{
         url: string;
     }>;
+    getReconnectUrl: (accountId: string) => Promise<{
+        url: string;
+    }>;
     disconnect: (accountId: string) => Promise<PaymentProviderAccountInterface>;
+    updateShopIds: (accountId: string, shopIds: string[]) => Promise<PaymentProviderAccountInterface>;
 }

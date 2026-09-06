@@ -61,6 +61,28 @@ export default class HttpClient
         }
     }
 
+    async patch(url: string, data, params, headers = {})
+    {
+        try {
+            const response: AxiosResponse = await axios.patch(
+                url,
+                data,
+                {
+                    withCredentials: this.withCredentials,
+                    headers: {
+                        ...headers,
+                        ...this.defaultHeaders,
+                    },
+                    params: params,
+                }
+            )
+
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response?.data ?? error);
+        }
+    }
+
     async delete(url: string, params, headers = {})
     {
         const response: AxiosResponse = await axios.delete(url, {
