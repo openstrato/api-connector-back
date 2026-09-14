@@ -24,8 +24,11 @@ class ImportService extends BaseService_1.BaseService {
             const result = this.httpClient.post(`${this.baseUrl}/${importId}/start`, {}, Object.assign(Object.assign({}, this.requestParams), params), {});
             return result;
         });
-        this.previewImport = (importId) => __awaiter(this, void 0, void 0, function* () {
-            const result = this.httpClient.post(`${this.baseUrl}/${importId}/preview`, {}, this.requestParams, {});
+        this.previewImport = (importId, limit) => __awaiter(this, void 0, void 0, function* () {
+            const params = {};
+            if (limit !== undefined)
+                params.limit = String(limit);
+            const result = this.httpClient.post(`${this.baseUrl}/${importId}/preview`, {}, Object.assign(Object.assign({}, this.requestParams), params), {});
             return result;
         });
     }

@@ -1,29 +1,32 @@
 import { BaseService } from "../Common/BaseService";
-interface Import {
+export interface ImportInterface {
     id?: string;
-    name: string;
+    type: string;
     status?: string;
+    progress?: number;
+    estimatedRecords?: number;
+    processedRecords?: number;
+    successfulRecords?: number;
+    failedRecords?: number;
+    errorMessage?: string;
+    errors?: string[];
+    csvUrl?: string;
+    template?: Record<string, any>;
+    startedAt?: Date;
+    completedAt?: Date;
     createdAt?: Date;
     updatedAt?: Date;
-    csvFile?: string;
-    mapping?: any;
 }
-interface ImportCreate {
-    name: string;
-    csvFile?: any;
-    mapping?: any;
+export interface ImportAddEditInterface {
+    type: string;
+    template: Record<string, any>;
+    csvUrl?: string;
 }
-interface ImportUpdate {
-    name?: string;
-    csvFile?: any;
-    mapping?: any;
-}
-export declare class ImportService extends BaseService<Import, ImportCreate, ImportUpdate> {
+export declare class ImportService extends BaseService<ImportInterface, ImportAddEditInterface, ImportAddEditInterface> {
     protected baseUrl: string;
     startImport: (importId: string, options?: {
         forceRestart?: boolean;
         forceImageRegeneration?: boolean;
     }) => Promise<any>;
-    previewImport: (importId: string) => Promise<any>;
+    previewImport: (importId: string, limit?: number) => Promise<any>;
 }
-export {};

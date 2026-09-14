@@ -16,6 +16,10 @@ class CartService extends BaseService_1.BaseService {
         super(params, httpClient);
         this.orderCalculator = orderCalculator;
         this.baseUrl = `${this.params.cartApiUrl}/carts`;
+        this.finalize = (cartId) => __awaiter(this, void 0, void 0, function* () {
+            const finalizedCart = yield this.httpClient.post(`${this.baseUrl}/${cartId}/finalize`, {}, this.requestParams, {});
+            return finalizedCart;
+        });
         this.sync = (cart) => __awaiter(this, void 0, void 0, function* () {
             var _a;
             const syncItems = cart.items.map(cartItem => {

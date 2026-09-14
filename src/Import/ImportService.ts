@@ -1,31 +1,33 @@
 import { BaseService } from "../Common/BaseService";
 
-interface Import
+export interface ImportInterface
 {
     id?: string;
-    name: string;
+    type: string;
     status?: string;
+    progress?: number;
+    estimatedRecords?: number;
+    processedRecords?: number;
+    successfulRecords?: number;
+    failedRecords?: number;
+    errorMessage?: string;
+    errors?: string[];
+    csvUrl?: string;
+    template?: Record<string, any>;
+    startedAt?: Date;
+    completedAt?: Date;
     createdAt?: Date;
     updatedAt?: Date;
-    csvFile?: string;
-    mapping?: any;
 }
 
-interface ImportCreate
+export interface ImportAddEditInterface
 {
-    name: string;
-    csvFile?: any;
-    mapping?: any;
+    type: string;
+    template: Record<string, any>;
+    csvUrl?: string;
 }
 
-interface ImportUpdate
-{
-    name?: string;
-    csvFile?: any;
-    mapping?: any;
-}
-
-export class ImportService extends BaseService<Import, ImportCreate, ImportUpdate>
+export class ImportService extends BaseService<ImportInterface, ImportAddEditInterface, ImportAddEditInterface>
 {
     protected baseUrl: string = `${this.params.productApiUrl}/imports`
 
@@ -44,11 +46,14 @@ export class ImportService extends BaseService<Import, ImportCreate, ImportUpdat
         return result;
     }
 
-    previewImport = async(importId: string): Promise<any> => {
+    previewImport = async(importId: string, limit?: number): Promise<any> => {
+        const params: Record<string, string> = {}
+        if (limit !== undefined) params.limit = String(limit)
+
         const result = this.httpClient.post(
             `${this.baseUrl}/${importId}/preview`,
             {},
-            this.requestParams,
+            { ...this.requestParams, ...params },
             {}
         )
 

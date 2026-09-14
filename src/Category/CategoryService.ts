@@ -3,12 +3,15 @@ import { BaseService } from "../Common/BaseService";
 export interface CategoryInterface
 {
     id: string;
+    code?: string;
     name: string;
     slug: string;
     parentId?: string | null;
+    shops?: { shopId: string }[];
     translations: CategoryTranslationInterface[];
     parents?: CategoryInterface[];
     children?: CategoryInterface[];
+    createdAt?: string;
 }
 
 export interface CategoryTranslationInterface
@@ -20,8 +23,10 @@ export interface CategoryTranslationInterface
 
 export interface CategoryAddEditInterface
 {
-    id?: string;
-    translations: CategoryTranslationInterface[]; 
+    code: string;
+    parentId?: string | null;
+    shops: string[];
+    i18n: CategoryTranslationInterface[];
 }
 
 export class CategoryService extends BaseService<CategoryInterface, CategoryAddEditInterface, CategoryAddEditInterface>
