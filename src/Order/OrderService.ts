@@ -7,7 +7,8 @@ import OrderCalculator from "./OrderCalculator";
 
 export interface OrderCreateInterface
 {
-    cartId: string;
+    // Required to create an order; not needed for updates to an already-created order.
+    cartId?: string;
     payments?: OrderPaymentInterface[];
     shippingAddress?: AddressInterface;
     billingAddress?: AddressInterface;
@@ -23,6 +24,12 @@ export interface OrderInterface
     shippingAddress: AddressInterface;
     billingAddress?: AddressInterface;
     status: string;
+    shopId?: string;
+    items?: CartItemInterface[];
+    customer?: { name?: string; lastName?: string; email?: string };
+    totalPrice?: PriceInterface;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface PaymentMethodInterface
@@ -33,9 +40,21 @@ export interface PaymentMethodInterface
 
 export interface OrderPaymentInterface
 {
+    id?: string;
     amount: number;
     currency: string;
     methodType: string;
+    status?: string;
+    providerPaymentId?: string;
+}
+
+export interface OrderPaymentAddInterface
+{
+    amount: number;
+    currency: string;
+    methodType: string;
+    status: string;
+    providerPaymentId?: string;
 }
 
 export interface AddressInterface
@@ -50,7 +69,7 @@ export interface AddressInterface
     postalCode: string;
 }
 
-export class OrderService extends BaseService<OrderInterface, OrderCreateInterface>
+export class OrderService extends BaseService<OrderInterface, OrderCreateInterface, OrderCreateInterface>
 {
     protected baseUrl: string = `${this.params.orderApiUrl}/orders`;
 
@@ -67,6 +86,30 @@ export class OrderService extends BaseService<OrderInterface, OrderCreateInterfa
         const order = this.httpClient.post(
             `${this.baseUrl}/${orderId}/confirm`,
             {},
+            this.requestParams,
+            this.requestHeaders
+        );
+
+        return order;
+    }
+
+    addPayment = async(orderId: string, payment: OrderPaymentAddInterface): Promise<OrderInterface> =>
+    {
+        const order = this.httpClient.post(
+            `${this.baseUrl}/${orderId}/payments`,
+            payment,
+            this.requestParams,
+            this.requestHeaders
+        );
+
+        return order;
+    }
+
+    updatePaymentStatus = async(orderId: string, paymentId: string, status: string): Promise<OrderInterface> =>
+    {
+        const order = this.httpClient.post(
+            `${this.baseUrl}/${orderId}/payments/${paymentId}`,
+            { status },
             this.requestParams,
             this.requestHeaders
         );

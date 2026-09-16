@@ -35,16 +35,23 @@ const defaultParams: ApiParamsInterface = {
     productApiUrl: 'http://api.shop.localhost/product-api',
     orderApiUrl: 'http://api.shop.localhost/order-api',
     cartApiUrl: 'http://api.shop.localhost/cart-api',
-    extensionApiUrl: 'http://api.shop.localhost/extension-api',
+    extensionApiUrl: 'http://api.shop.localhost/payment-api',
     shopApiUrl: 'http://api.shop.localhost/shop-api',
     authApiUrl: 'http://api.shop.localhost/auth-api',
 }
 
 export function apiConnector(params: ApiParamsInterface)
 {
+    // Callers (e.g. mcp_api's shopApiConnector) commonly forward `process.env.SOME_URL` as-is,
+    // which is `undefined` when unset — a plain spread would let that `undefined` clobber the
+    // matching defaultParams entry, so only override defaults for keys actually provided.
+    const providedParams = Object.fromEntries(
+        Object.entries(params).filter(([, value]) => value !== undefined)
+    )
+
     params = {
         ...defaultParams,
-        ...params,
+        ...providedParams,
     }
 
     const httpClient = new HttpClient(params.accessToken, params.channelToken);

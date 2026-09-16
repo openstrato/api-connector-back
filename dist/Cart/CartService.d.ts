@@ -8,6 +8,13 @@ export interface CartInterface {
     items: CartItemInterface[];
     totalPrice: PriceMapInterface;
     totalQuantity: number;
+    status?: string;
+    shopId?: string;
+    user?: {
+        email?: string;
+    };
+    createdAt?: string;
+    updatedAt?: string;
 }
 export interface CartItemInterface {
     id?: string;
@@ -42,6 +49,7 @@ export declare class CartService extends BaseService<CartInterface> {
     private orderCalculator;
     protected baseUrl: string;
     constructor(params: ApiParamsInterface, httpClient: HttpClient, orderCalculator: OrderCalculator);
+    finalize: (cartId: string) => Promise<CartInterface>;
     sync: (cart: CartInterface) => Promise<CartInterface>;
     addVariant(variant: VariantInterface, product: ProductInterface, cart: CartInterface, quantity: number, options: CartSyncOptions): CartInterface;
     removeVariant: (variant: CartItemVariantInterface, cart: CartInterface, quantity: number, options: CartSyncOptions) => {
@@ -49,5 +57,12 @@ export declare class CartService extends BaseService<CartInterface> {
         id: string;
         totalPrice: PriceMapInterface;
         totalQuantity: number;
+        status?: string;
+        shopId?: string;
+        user?: {
+            email?: string;
+        };
+        createdAt?: string;
+        updatedAt?: string;
     };
 }

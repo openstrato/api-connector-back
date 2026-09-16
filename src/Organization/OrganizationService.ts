@@ -5,6 +5,9 @@ export interface OrganizationInterface
     id: string;
     name: string;
     users: OrganizationUser[];
+    translations?: OrganizationTranslationInterface[];
+    languages?: OrganizationLanguageInterface[];
+    createdAt?: string;
 }
 
 export interface OrganizationUser
@@ -13,7 +16,25 @@ export interface OrganizationUser
     scopes: string[];
 }
 
-export class OrganizationService extends BaseService<OrganizationInterface>
+export interface OrganizationTranslationInterface
+{
+    lang: string;
+    name: string;
+}
+
+export interface OrganizationLanguageInterface
+{
+    code: string;
+    isDefault: boolean;
+}
+
+export interface OrganizationAddEditInterface
+{
+    translations: OrganizationTranslationInterface[];
+    languages?: OrganizationLanguageInterface[];
+}
+
+export class OrganizationService extends BaseService<OrganizationInterface, OrganizationAddEditInterface, OrganizationAddEditInterface>
 {
     protected baseUrl: string = `${this.params.shopApiUrl}/organizations`
 }

@@ -10,6 +10,11 @@ export interface CartInterface
     items: CartItemInterface[];
     totalPrice: PriceMapInterface;
     totalQuantity: number;
+    status?: string;
+    shopId?: string;
+    user?: { email?: string };
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface CartItemInterface
@@ -63,6 +68,17 @@ export class CartService extends BaseService<CartInterface>
         private orderCalculator: OrderCalculator
     ) {
         super(params, httpClient)
+    }
+
+    finalize = async (cartId: string): Promise<CartInterface> => {
+        const finalizedCart = await this.httpClient.post(
+            `${this.baseUrl}/${cartId}/finalize`,
+            {},
+            this.requestParams,
+            {}
+        )
+
+        return finalizedCart;
     }
 
     sync = async (cart: CartInterface): Promise<CartInterface> => {

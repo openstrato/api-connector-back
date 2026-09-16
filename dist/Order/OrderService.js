@@ -20,6 +20,14 @@ class OrderService extends BaseService_1.BaseService {
             const order = this.httpClient.post(`${this.baseUrl}/${orderId}/confirm`, {}, this.requestParams, this.requestHeaders);
             return order;
         });
+        this.addPayment = (orderId, payment) => __awaiter(this, void 0, void 0, function* () {
+            const order = this.httpClient.post(`${this.baseUrl}/${orderId}/payments`, payment, this.requestParams, this.requestHeaders);
+            return order;
+        });
+        this.updatePaymentStatus = (orderId, paymentId, status) => __awaiter(this, void 0, void 0, function* () {
+            const order = this.httpClient.post(`${this.baseUrl}/${orderId}/payments/${paymentId}`, { status }, this.requestParams, this.requestHeaders);
+            return order;
+        });
         this.calculate = (cart, currency) => {
             return this.orderCalculator.calculateTotalPrice(cart.items, currency);
         };
