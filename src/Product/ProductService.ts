@@ -61,7 +61,72 @@ export interface PriceMapInterface
     [currency: string]: PriceInterface;
 }
 
-export class ProductService extends BaseService<ProductInterface>
+export interface ProductAddEditInterface
+{
+    shops: { id: string }[];
+    categories: ProductCategoryAddEditInterface[];
+    variants: ProductVariantAddEditInterface[];
+    taxes: { id: string }[];
+    images: ProductImageAddEditInterface[];
+    i18n: ProductTranslationInterface[];
+    prices: ProductPriceAddEditInterface[];
+}
+
+export interface ProductCategoryAddEditInterface
+{
+    id?: string;
+    code?: string;
+    parentId: string;
+    i18n?: ProductTranslationInterface[];
+}
+
+export interface ProductVariantAddEditInterface
+{
+    id?: string;
+    quantity: number;
+    sku: string;
+    upc: string;
+    ean: string;
+    attributes: ProductVariantAttributeAddEditInterface[];
+    prices?: ProductPriceAddEditInterface[];
+    images?: ProductImageAddEditInterface[];
+}
+
+export interface ProductVariantAttributeAddEditInterface
+{
+    attributeId?: string;
+    code?: string;
+    values: ProductVariantAttributeValueAddEditInterface[];
+}
+
+export interface ProductVariantAttributeValueAddEditInterface
+{
+    id?: string;
+    code?: string;
+    i18n?: { lang: string; label: string }[];
+}
+
+export interface ProductImageAddEditInterface
+{
+    url: string;
+    filename: string;
+}
+
+export interface ProductTranslationInterface
+{
+    lang: string;
+    name: string;
+    description: string;
+}
+
+export interface ProductPriceAddEditInterface
+{
+    currency: string;
+    withTaxes?: number;
+    withoutTaxes?: number;
+}
+
+export class ProductService extends BaseService<ProductInterface, ProductAddEditInterface, ProductAddEditInterface>
 {
     protected baseUrl: string = `${this.params.productApiUrl}/products`
 
