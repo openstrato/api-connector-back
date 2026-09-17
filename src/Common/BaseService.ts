@@ -1,6 +1,14 @@
 import { ApiParamsInterface } from "..";
 import HttpClient from "./HttpClient";
 
+export interface FieldSchemaEntryInterface
+{
+    name: string;
+    type: string;
+    groups: string[];
+    nested?: FieldSchemaEntryInterface[];
+}
+
 export class BaseService<T, createT = null, updateT = null>
 {
     protected baseUrl = '';
@@ -72,6 +80,16 @@ export class BaseService<T, createT = null, updateT = null>
             {}
         )
         return result;
+    }
+
+    getSchema = async(): Promise<FieldSchemaEntryInterface[]> => {
+        const schema = this.httpClient.get(
+            `${this.baseUrl}/schema`,
+            this.requestParams,
+            {}
+        )
+
+        return schema;
     }
 
     delete = async(entityId: string): Promise<boolean> => {
