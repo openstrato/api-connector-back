@@ -23,8 +23,8 @@ class BaseService {
             const entity = this.httpClient.get(`${this.baseUrl}/${entityId}`, Object.assign(Object.assign({}, this.requestParams), params), {});
             return entity;
         });
-        this.update = (entityId, updateData) => __awaiter(this, void 0, void 0, function* () {
-            const entity = this.httpClient.post(`${this.baseUrl}/${entityId}`, updateData, this.requestParams, {});
+        this.update = (entityId, updateData, params = {}) => __awaiter(this, void 0, void 0, function* () {
+            const entity = this.httpClient.post(`${this.baseUrl}/${entityId}`, updateData, Object.assign(Object.assign({}, this.requestParams), params), {});
             return entity;
         });
         this.create = (createData) => __awaiter(this, void 0, void 0, function* () {

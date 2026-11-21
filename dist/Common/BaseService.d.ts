@@ -15,7 +15,7 @@ export declare class BaseService<T, createT = null, updateT = null> {
     constructor(params: ApiParamsInterface, httpClient: HttpClient);
     find(params?: {}): Promise<T[]>;
     findById: (entityId: string, params?: {}) => Promise<T>;
-    update: (entityId: string, updateData: updateT) => Promise<T>;
+    update: (entityId: string, updateData: updateT, params?: {}) => Promise<T>;
     create: (createData: createT) => Promise<T>;
     updateBulk: (data: any) => Promise<any>;
     getSchema: () => Promise<FieldSchemaEntryInterface[]>;

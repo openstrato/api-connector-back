@@ -50,11 +50,14 @@ export class BaseService<T, createT = null, updateT = null>
         return entity;
     }
 
-    update = async(entityId: string, updateData: updateT): Promise<T> => {
+    update = async(entityId: string, updateData: updateT, params = {}): Promise<T> => {
         const entity = this.httpClient.post(
             `${this.baseUrl}/${entityId}`,
             updateData,
-            this.requestParams,
+            {
+                ...this.requestParams,
+                ...params
+            },
             {}
         )
 
