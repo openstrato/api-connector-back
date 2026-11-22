@@ -32,10 +32,12 @@ export interface CartItemVariantInterface {
     attributes: CartItemVariantAttributeInterface[];
 }
 export interface CartItemVariantAttributeInterface {
+    attributeId?: string;
     label: string;
     values: CartItemVariantAttributeValueInterface[];
 }
 export interface CartItemVariantAttributeValueInterface {
+    valueId?: string;
     label: string;
 }
 export interface CartItemImageInterface {

@@ -90,10 +90,12 @@ class CartService extends BaseService_1.BaseService {
             for (const attribute of variant.attributes) {
                 const itemAttributeValues = attribute.values.map(value => {
                     return {
+                        valueId: value.valueId,
                         label: value.label
                     };
                 });
                 const itemAttribute = {
+                    attributeId: attribute.attributeId,
                     label: attribute.label,
                     values: itemAttributeValues,
                 };

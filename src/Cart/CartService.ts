@@ -38,12 +38,14 @@ export interface CartItemVariantInterface
 
 export interface CartItemVariantAttributeInterface
 {
+    attributeId?: string;
     label: string;
     values: CartItemVariantAttributeValueInterface[];
 }
 
 export interface CartItemVariantAttributeValueInterface
 {
+    valueId?: string;
     label: string;
 }
 
@@ -148,11 +150,13 @@ export class CartService extends BaseService<CartInterface>
                 const itemAttributeValues: CartItemVariantAttributeValueInterface[] = 
                     attribute.values.map(value => {
                         return {
+                            valueId: value.valueId,
                             label: value.label
                         }
                     })
 
                 const itemAttribute: CartItemVariantAttributeInterface = {
+                    attributeId: attribute.attributeId,
                     label: attribute.label,
                     values: itemAttributeValues,
                 }
