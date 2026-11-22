@@ -9,18 +9,38 @@ export interface ProductInterface {
     allImages: ImageInterface[];
     shops: ProductShopInterface[];
 }
+export interface TranslatedLabelInterface {
+    lang: string;
+    label: string;
+}
 export interface VariantInterface {
     id: string;
+    sku?: string;
+    ean?: string;
+    upc?: string;
+    quantity?: number;
+    isActive?: boolean;
+    hash?: string;
     prices: PriceInterface[];
     priceMap: PriceMapInterface;
     attributes: ProductAttributeInterface[];
 }
+/**
+ * Hydrated variant attribute as returned by product_api reads. Stored variants only hold
+ * {attributeId, valueId}; the labels are resolved from Product.attributes on read.
+ */
 export interface ProductAttributeInterface {
+    attributeId: string;
+    code?: string;
     label: string;
+    translations?: TranslatedLabelInterface[];
     values: ProductAttributeValueInterface[];
 }
 export interface ProductAttributeValueInterface {
+    valueId: string;
+    code?: string;
     label: string;
+    translations?: TranslatedLabelInterface[];
 }
 export interface ProductShopInterface {
     shopId: string;
@@ -77,7 +97,7 @@ export interface ProductVariantAttributeAddEditInterface {
     values: ProductVariantAttributeValueAddEditInterface[];
 }
 export interface ProductVariantAttributeValueAddEditInterface {
-    id?: string;
+    valueId?: string;
     code?: string;
     i18n?: {
         lang: string;
